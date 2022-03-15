@@ -44,10 +44,10 @@ insert into tipo_dispositivo values ( '3', 'turbina_hidroelectrica' );
 cur.executescript("""
 	create table lecturas(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		id_dispositivo,
-		id_tipo_dispositivo,
-		potencia_actual,
-		timestamp
+		id_dispositivo INTEGER NOT NULL,
+		id_tipo_dispositivo INTEGER NOT NULL,
+		potencia_actual REAL NOT NULL,
+		timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);
 	""")
 
