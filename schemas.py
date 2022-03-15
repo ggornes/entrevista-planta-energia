@@ -20,3 +20,18 @@ class Dispositivo(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class LecturaCreate(BaseModel):
+    id_dispositivo: int
+    potencia_actual: float
+
+class Lectura(BaseModel):
+    id: int
+    id_dispositivo: int
+    id_tipo_dispositivo: int
+    potencia_actual: float
+    timestamp: datetime
+
+    class Config:
+        orm_mode = True
