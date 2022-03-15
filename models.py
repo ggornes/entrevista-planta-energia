@@ -43,5 +43,13 @@ class Lectura(Base):
     id = Column(Integer, primary_key=True)
     id_dispositivo = Column(BIGINT, ForeignKey("dispositivos.id"))
     id_tipo_dispositivo = Column(BIGINT, ForeignKey("tipo_dispositivo.id"))
-    potencia_actual: Column(FLOAT(precision=10, decimal_return_scale=None))
-    timestamp: Column(DateTime(timezone=True), server_default=func.now())
+    potencia_actual = Column(FLOAT(precision=10, decimal_return_scale=None))
+    timestamp = Column(DateTime(timezone=True), server_default=func.now())
+
+    def __repr__(self):
+        return 'Lectura:' + \
+               f'id: {self.id}\n' + \
+               f'id_dispositivo: {self.id_dispositivo}\n' + \
+               f'id_tipo_dispositivo: {self.id_tipo_dispositivo}\n' + \
+               f'potencia_actual: {self.potencia_actual}\n' + \
+               f'timestamp: {self.timestamp}\n'
