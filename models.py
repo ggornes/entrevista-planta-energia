@@ -1,5 +1,5 @@
 
-
+import datetime
 from sqlalchemy import Column, Integer, String, BIGINT, ForeignKey, func, FLOAT, DateTime
 from database import Base
 
@@ -11,8 +11,19 @@ class Dispositivo(Base):
     id_tipo_dispositivo = Column(BIGINT, ForeignKey("tipo_dispositivo.id"))
     id_status_dispositivo = Column(BIGINT, ForeignKey("status_dispositivo.id"))
     potencia_actual = Column(FLOAT(precision=10, decimal_return_scale=None))
-    fecha_alta = Column(DateTime(timezone=True), server_default=func.now())
-    fecha_actualizacion = Column(DateTime(timezone=True), onupdate=func.now())
+    fecha_alta = Column(DateTime(timezone=True), default=func.now())
+    fecha_actualizacion = Column(DateTime(timezone=True), default=func.now())
+
+
+    def __repr__(self):
+        return 'Dispositivo:' + \
+               f'id: {self.id}\n' + \
+               f'nombre: {self.nombre}\n' + \
+               f'id_tipo_dispositivo: {self.id_tipo_dispositivo}\n' + \
+               f'id_status_dispositivo: {self.id_status_dispositivo}\n' + \
+               f'potencia_actual: {self.potencia_actual}\n' + \
+               f'fecha_alta: {self.fecha_alta}\n' + \
+               f'fecha_actualizacion: {self.fecha_actualizacion}\n'
 
 
 class TipoDispositivo(Base):

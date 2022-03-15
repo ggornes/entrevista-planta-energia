@@ -12,13 +12,13 @@ cur = con.cursor()
 # named geeks1 and insert the data
 cur.executescript("""
 	create table dispositivos(
-		id,
-		nombre,
-		id_tipo_dispositivo,
-		id_status_dispositivo,
-		potencia_actual,
-		fecha_alta,
-		fecha_actualizacion
+		ID INTEGER PRIMARY KEY AUTOINCREMENT,
+		nombre TEXT NOT NULL,
+		id_tipo_dispositivo INTEGER NOT NULL,
+		id_status_dispositivo INTEGER NOT NULL,
+		potencia_actual REAL NOT NULL,
+		fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);
 	""")
 
@@ -43,7 +43,7 @@ insert into tipo_dispositivo values ( '3', 'turbina_hidroelectrica' );
 
 cur.executescript("""
 	create table lecturas(
-		id,
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		id_dispositivo,
 		id_tipo_dispositivo,
 		potencia_actual,
