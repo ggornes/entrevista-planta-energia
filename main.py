@@ -1,16 +1,43 @@
-# This is a sample Python script.
+from typing import List
+from fastapi import FastAPI, status, HTTPException, Depends
+from database import Base, engine, SessionLocal
+from sqlalchemy.orm import Session
+import models
+import schemas
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Create the database
+Base.metadata.create_all(engine)
+
+# Initialize app
+app = FastAPI()
+
+# Helper function to get database session
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+
+@app.get("/")
+def root():
+    return "hello world"
+
+@app.get("/dispositivos", response_model=schemas.Dispositivo, status_code=status.HTTP_200_OK)
+def read_dispositivos(session: Session = Depends(get_session)):
+    dispositivos_db = session.query(models.Dispositivo).all()
+    return dispositivos_db
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@app.post("/dispositivos", response_model=schemas.Dispositivo, status_code=status.HTTP_201_CREATED)
+def create_dispositivo(dispositivo: schemas.DispositivoCreate, session: Session = Depends(get_session)):
 
+    dispositivo_db = models.Dispositivo(nombre = dispositivo.nombre)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    session.add(dispositivo_db)
+    session.commit()
+    session.refresh(dispositivo_db)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print(dispositivo_db)
+
+    return dispositivo_db
